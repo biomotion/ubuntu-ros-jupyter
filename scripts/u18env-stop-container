@@ -1,0 +1,4 @@
+#!/bin/bash
+
+docker stop $U18ENV_CONTAINER_NAME
+docker rm $U18ENV_CONTAINER_NAME

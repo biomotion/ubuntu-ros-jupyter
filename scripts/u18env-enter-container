@@ -1,0 +1,11 @@
+#!/bin/bash
+
+CMD=$@
+if [ -z $1 ]; then
+   CMD="bash"
+fi 
+
+docker exec -it \
+    -e DISPLAY \
+    -w /hostroot/$(pwd) \
+    $U18ENV_CONTAINER_NAME $CMD
