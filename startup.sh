@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+sudo apt update
 # setup ros environment
 source "/opt/ros/$ROS_DISTRO/setup.bash"
 mkdir -p "$HOME/.vnc"

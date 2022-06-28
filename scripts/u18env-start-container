@@ -2,26 +2,6 @@
 
 BASH_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-XAUTH=/tmp/.u18env_docker.xauth
-if [ ! -f $XAUTH ]
-then
-    xauth_list=$(xauth nlist $DISPLAY)
-    xauth_list=$(sed -e 's/^..../ffff/' <<< "$xauth_list")
-    if [ ! -z "$xauth_list" ]
-    then
-        echo "$xauth_list" | xauth -f $XAUTH nmerge -
-    else
-        touch $XAUTH
-    fi
-    chmod a+r $XAUTH
-fi
-
-# Prevent executing "docker run" when xauth failed.
-if [ ! -f $XAUTH ]; then
-    echo "[$XAUTH] was not properly created. Exiting..."
-    exit 1
-fi
-
 if [ -z $U18ENV_IMAGE_NAME ]; then
     U18ENV_IMAGE_NAME=ubuntu18-env:latest
 fi
@@ -30,23 +10,13 @@ if [ -z $U18ENV_CONTAINER_NAME ]; then
     U18ENV_CONTAINER_NAME=ubuntu18-env
 fi
 
-if [ ! -f "/tmp/.X11-unix/X1" ]; then
-    echo "remove X1"
-    sudo rm "/tmp/.X11-unix/X1"
-fi
-
 
 docker run -itd \
-    -e DISPLAY=$DISPLAY \
-    -e QT_X11_NO_MITSHM=1 \
-    -e XAUTHORITY=$XAUTH \
     -e VNC_RESOLUTION=1920x1080 \
     -e VNC_PW=password \
-    -v "$XAUTH:$XAUTH" \
-    -v "/tmp/.X11-unix:/tmp/.X11-unix" \
-    -v "$HOME/.ssh/id_rsa:/home/user/.ssh/id_rsa" \
     -v "$HOME/3d_features:/home/user/3d_features" \
     -v "$HOME/notebooks:/home/user/notebooks" \
+    -v "$HOME/notebooks:/home/user/pose-graph-repository" \
     --net host \
     --gpus all \
     -v /dev:/dev \

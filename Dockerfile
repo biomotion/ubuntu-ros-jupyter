@@ -21,6 +21,7 @@ RUN apt-get update && apt-get install -q -y --no-install-recommends \
     git \
     chromium-browser \
     openssh-client \
+    terminator \
     && rm -rf /var/lib/apt/lists/*
 
 # setup environment
@@ -76,4 +77,4 @@ WORKDIR /home/$USERNAME
 
 COPY ./startup.sh /
 ENTRYPOINT ["/startup.sh"]
-CMD ["/bin/bash"]
+CMD ["bash"]
