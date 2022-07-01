@@ -16,7 +16,7 @@ docker run -itd \
     -e VNC_PW=password \
     -v "$HOME/3d_features:/home/user/3d_features" \
     -v "$HOME/notebooks:/home/user/notebooks" \
-    -v "$HOME/notebooks:/home/user/pose-graph-repository" \
+    -v "$HOME/pose-graph-repository:/home/user/pose-graph-repository" \
     --net host \
     --gpus all \
     -v /dev:/dev \
